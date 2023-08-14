@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order index{% endblock %}
+
+{% block body %}
+    <div {{ stimulus_controller('own-turbo-stream', {
+        'hub': 'http://127.0.0.1:3000/.well-known/mercure',
+        'topic': 'https://symfony.com/ux-turbo/App%5CEntity%5COrder/{id}'
+    }) }}></div>
+
+
+    <turbo-frame id="orders"></turbo-frame>
+    <h1>Lista zamówień</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numer</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.number }}</td>
+                <td>
+                    <a href="{{ path('app_order_show', {'id': order.id}) }}">pokaż</a>
+                    <a href="{{ path('app_order_edit', {'id': order.id}) }}">edytuj</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_order_new') }}">Create new</a>
+{% endblock %}

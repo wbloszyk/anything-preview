@@ -1,0 +1,6 @@
+turbo:
+  default_transport: default
+  broadcast:
+    entity_template_prefixes:
+      App\Entity\: broadcast/
+    enabled: true

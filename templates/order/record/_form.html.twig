@@ -1,4 +1,10 @@
-{{ form_start(form) }}
+{{ form_start(form, {action: path('app_order_record_new', {id: order.id})}) }}
+    <div class="row">
+        <div class="col-4">{{ form_row(form.productName) }}</div>
+        <div class="col-2">{{ form_row(form.vat) }}</div>
+        <div class="col-3">{{ form_row(form.priceExcl) }}</div>
+        <div class="col-3">{{ form_row(form.priceIncl) }}</div>
+    </div>
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-success">{{ button_label|default('Dodaj') }}</button>
 {{ form_end(form) }}

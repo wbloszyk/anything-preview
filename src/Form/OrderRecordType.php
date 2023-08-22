@@ -12,10 +12,18 @@ class OrderRecordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('productName')
-            ->add('vat')
-            ->add('priceExcl')
-            ->add('priceIncl')
+            ->add('productName', null, [
+                'label' => 'Nazwa produktu'
+            ])
+            ->add('vat', null, [
+                'label' => 'stawka vat [%]'
+            ])
+            ->add('priceExcl', null, [
+                'label' => 'Cena netto'
+            ])
+            ->add('priceIncl', null, [
+                'label' => 'Cena brutto'
+            ])
         ;
     }
 

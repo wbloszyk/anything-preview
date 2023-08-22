@@ -1,5 +1,10 @@
 twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    date:
+        format: Y-m-d
     default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']
 
 when@test:
     twig:

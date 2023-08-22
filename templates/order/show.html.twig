@@ -1,41 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Order{% endblock %}
+{% block title %}Zamówienie nr {{ order.number }}{% endblock %}
 
 {% block body %}
+    <div {{ stimulus_controller('own-turbo-stream', {
+        'hub': 'http://127.0.0.1:3000/.well-known/mercure',
+        'topic': 'https://symfony.com/ux-turbo/App%5CEntity%5COrder/{id}'
+    }) }}></div>
+    <div {{ stimulus_controller('own-turbo-stream', {
+        'hub': 'http://127.0.0.1:3000/.well-known/mercure',
+        'topic': 'https://symfony.com/ux-turbo/App%5CEntity%5COrderRecord/{id}'
+    }) }}></div>
+
+    <div id="orders"></div>
     <h1 class="m-5">Zamówienie numer: {{ order.number }}</h1>
     <table class="table mb-5">
-        <tbody>
+        <thead>
         <tr>
             <th>Id</th>
             <td>Nazwa</td>
             <td>vat</td>
             <td>Cena netto</td>
             <td>Cena brutto</td>
+            <td></td>
         </tr>
+        </thead>
+        <tbody id="order_{{ order.id }}_records">
         {% for record in order.orderRecords %}
-            <tr>
+            <tr id="order_{{ order.id }}_record_{{ record.id }}">
                 <th>{{ loop.index }}</th>
                 <th>{{ record.productName }}</th>
                 <td>{{ record.vat }}</td>
                 <td>{{ record.priceExcl }}</td>
                 <td>{{ record.priceIncl }}</td>
+                <td>{{ include('order/record/_delete_form.html.twig', {order_record: record}) }}</td>
             </tr>
         {% endfor %}
-        <tr>
-            <th></th>
-            <th>Razem</th>
-            <td>0</td>
-            <td>0.00</td>
-            <td>0.00</td>
-        </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th>Razem</th>
+                <td>0</td>
+                <td>0.00</td>
+                <td>0.00</td>
+                <td></td>
+            </tr>
+        </tfoot>
     </table>
 
-    <div class="mb-3">
+    <turbo-frame id="order-record-form" src="{{ path('app_order_record_new', {id: order.id}) }}">
+
+    </turbo-frame>
+
+    {#
+    <div class="my-3">
         <a href="{{ path('app_order_index') }}" class="btn btn-primary">Wróć do listy</a>
         <a href="{{ path('app_order_edit', {'id': order.id}) }}" class="btn btn-primary">Edytuj</a>
     </div>
 
     {{ include('order/_delete_form.html.twig') }}
+    #}
 {% endblock %}

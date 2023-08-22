@@ -83,10 +83,11 @@ class OrderController extends AbstractController
             $entityManager->persist($orderRecord);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_order_record_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_order_record_new', ['id' => $order->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('order_record/new.html.twig', [
+        return $this->render('order/record/new.html.twig', [
+            'order' => $order,
             'order_record' => $orderRecord,
             'form' => $form,
         ]);
@@ -101,10 +102,10 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_order_record_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_order_show', ['id' => $order->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('order_record/edit.html.twig', [
+        return $this->render('order/record/edit.html.twig', [
             'order_record' => $orderRecord,
             'form' => $form,
         ]);
@@ -118,7 +119,7 @@ class OrderController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_order_record_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_order_show', ['id' => $order->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'app_order_delete', methods: ['POST'])]

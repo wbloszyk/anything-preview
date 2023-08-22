@@ -3,13 +3,6 @@
 {% block title %}Order index{% endblock %}
 
 {% block body %}
-    <div {{ stimulus_controller('own-turbo-stream', {
-        'hub': 'http://127.0.0.1:3000/.well-known/mercure',
-        'topic': 'https://symfony.com/ux-turbo/App%5CEntity%5COrder/{id}'
-    }) }}></div>
-
-
-    <turbo-frame id="orders"></turbo-frame>
     <h1>Lista zamówień</h1>
 
     <table class="table">

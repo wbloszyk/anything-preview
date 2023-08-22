@@ -1,22 +1,27 @@
 {# Learn how to use Turbo Streams: https://github.com/symfony/ux-turbo#broadcast-doctrine-entities-update #}
 {% block create %}
-<turbo-stream action="append" target="order_records">
-    <template>
-        <div id="{{ 'order_record_' ~ id }}">
-            #{{ id }} created
-        </div>
-    </template>
-</turbo-stream>
+    <turbo-stream action="append" target="order_{{ entity.addedTo.id }}_records">
+        <template>
+            <tr id="order_{{ entity.addedTo.id }}_record_{{ id }}">
+                <th>{{ entity.addedTo.orderRecords|length }}</th>
+                <th>{{ entity.productName }}</th>
+                <td>{{ entity.vat }}</td>
+                <td>{{ entity.priceExcl }}</td>
+                <td>{{ entity.priceIncl }}</td>
+                <td>{{ include('order/record/_delete_form.html.twig', {order_record: entity}) }}</td>
+            </tr>
+        </template>
+    </turbo-stream>
 {% endblock %}
 
 {% block update %}
-<turbo-stream action="update" target="order_record_{{ id }}">
-    <template>
-        #{{ id }} updated
-    </template>
-</turbo-stream>
+    <turbo-stream action="update" target="order_{{ entity.addedTo.id }}_record_{{ id }}">
+        <template>
+            #{{ id }} updated
+        </template>
+    </turbo-stream>
 {% endblock %}
 
 {% block remove %}
-<turbo-stream action="remove" target="order_record_{{ id }}"></turbo-stream>
+    <turbo-stream action="remove" target="order_{{ entity.addedTo.id }}_record_{{ id }}"></turbo-stream>
 {% endblock %}
